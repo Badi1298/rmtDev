@@ -18,6 +18,7 @@ import BookmarksButton from './BookmarksButton';
 
 function App() {
     const [jobItems, setJobItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
@@ -29,13 +30,21 @@ function App() {
     }, [debouncedSearchQuery]);
 
     const fetchResults = async (query: string): Promise<void> => {
-        const response = await fetch(
-            `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${query}`
-        );
-        if (!response.ok) throw new Error();
+        setIsLoading(true);
+        try {
+            const response = await fetch(
+                `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${query}`
+            );
+            if (!response.ok) throw new Error();
 
-        const data = await response.json();
-        setJobItems(data.jobItems);
+            const data = await response.json();
+            setJobItems(data.jobItems);
+            setIsLoading(false);
+        } catch (err) {
+            console.log('ouch');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -57,7 +66,7 @@ function App() {
                         <ResultsCount />
                         <SortingControls />
                     </SidebarTop>
-                    <JobList jobItems={jobItems} />
+                    <JobList jobItems={jobItems} isLoading={isLoading} />
                     <Pagination />
                 </Sidebar>
                 <JobItemContent />
