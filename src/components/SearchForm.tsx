@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-const URL = "https://bytegrad.com/course-assets/projects/rmtdev/api/data";
-
 export default function SearchForm() {
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -11,8 +9,14 @@ export default function SearchForm() {
         fetchResults(searchQuery);
     }, [searchQuery]);
 
-    const fetchResults = (query: string): void => {
-        console.log(query);
+    const fetchResults = async (query: string): Promise<void> => {
+        const response = await fetch(
+            `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${query}`
+        );
+        if (!response.ok) throw new Error();
+
+        const data = await response.json();
+        console.log(data);
     };
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
