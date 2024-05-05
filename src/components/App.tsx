@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useDebounce } from 'use-debounce';
+import { useActiveId, useJobItems } from '../lib/hooks';
 
 import Logo from './Logo';
 import Footer from './Footer';
@@ -17,39 +18,17 @@ import SortingControls from './SortingControls';
 import BookmarksButton from './BookmarksButton';
 
 function App() {
-    const [jobItems, setJobItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
 
-    useEffect(() => {
-        if (!debouncedSearchQuery) return;
+    const [jobItems, isLoading] = useJobItems(debouncedSearchQuery);
 
-        fetchResults(debouncedSearchQuery);
-    }, [debouncedSearchQuery]);
-
-    const fetchResults = async (query: string): Promise<void> => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(
-                `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${query}`
-            );
-            if (!response.ok) throw new Error();
-
-            const data = await response.json();
-            setJobItems(data.jobItems);
-            setIsLoading(false);
-        } catch (err) {
-            console.log('ouch');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const [activeId] = useActiveId();
 
     return (
         <>
             <Background />
+
             <Header>
                 <HeaderTop>
                     <Logo />
@@ -60,6 +39,7 @@ function App() {
                     setSearchQuery={setSearchQuery}
                 />
             </Header>
+
             <Container>
                 <Sidebar>
                     <SidebarTop>
@@ -71,6 +51,7 @@ function App() {
                 </Sidebar>
                 <JobItemContent />
             </Container>
+
             <Footer />
         </>
     );

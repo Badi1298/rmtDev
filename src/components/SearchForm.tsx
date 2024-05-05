@@ -1,6 +1,14 @@
 import React from 'react';
 
-export default function SearchForm({ searchQuery, setSearchQuery }) {
+type SearchFormProps = {
+    searchQuery: string;
+    setSearchQuery: (searchQuery: string) => void;
+};
+
+export default function SearchForm({
+    searchQuery,
+    setSearchQuery,
+}: SearchFormProps) {
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     };
