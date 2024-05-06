@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
+import { handleError } from './utils';
+
 import { JobItem, JobItemExpanded } from './types';
 
 import { BASE_API_URL } from './constants';
@@ -28,7 +30,8 @@ const fetchJobItems = async (query: string): Promise<JobItemsApiResponse> => {
         const data = await response.json();
         return data;
     } catch (err) {
-        throw new Error('There was an issue while fetching the job items.');
+        handleError(err);
+        throw err;
     }
 };
 
@@ -72,7 +75,8 @@ const fetchJobItem = async (id: number): Promise<JobItemApiResponse> => {
         const data = await response.json();
         return data;
     } catch (err) {
-        throw new Error('Failed to fetch job item.');
+        handleError(err);
+        throw err;
     }
 };
 
