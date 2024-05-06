@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useDebounce } from 'use-debounce';
-import { useActiveId, useJobItems } from '../lib/hooks';
+import { useJobItems } from '../lib/hooks';
 
 import Logo from './Logo';
 import Footer from './Footer';
@@ -20,10 +20,7 @@ import BookmarksButton from './BookmarksButton';
 function App() {
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
-
     const [jobItems, isLoading] = useJobItems(debouncedSearchQuery);
-
-    const [activeId] = useActiveId();
 
     return (
         <>

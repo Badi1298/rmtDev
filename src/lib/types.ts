@@ -6,3 +6,14 @@ export type JobItem = {
     badgeLetters: string;
     relevanceScore: number;
 };
+
+export type JobItemExpanded = JobItem & {
+    salary: string;
+    duration: string;
+    location: string;
+    reviews: string[];
+    companyURL: string;
+    coverImgURL: string;
+    description: string;
+    qualifications: string[];
+};
