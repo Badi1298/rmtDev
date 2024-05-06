@@ -5,14 +5,14 @@ import BookmarkIcon from './BookmarkIcon';
 
 export default function JobItemContent() {
     const activeId = useActiveId();
-    const [jobItem, loadingJobItem] = useJobItem(activeId);
+    const { jobItem, isLoading } = useJobItem(activeId);
+
+    if (isLoading) return <LoadingJobItem />;
 
     if (!jobItem) return <EmptyJobContent />;
 
     return (
         <section className="job-details">
-            {loadingJobItem && <Spinner />}
-
             <div>
                 <img src={jobItem.coverImgURL} alt="cover image" />
 
@@ -105,6 +105,16 @@ export default function JobItemContent() {
                         appreciate it!
                     </p>
                 </footer>
+            </div>
+        </section>
+    );
+}
+
+function LoadingJobItem() {
+    return (
+        <section className="job-details">
+            <div>
+                <Spinner />
             </div>
         </section>
     );
