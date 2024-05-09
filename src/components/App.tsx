@@ -1,30 +1,30 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { useDebounce } from "use-debounce";
-import { useJobItems } from "../lib/hooks";
+import { useDebounce } from 'use-debounce';
+import { useJobItems } from '../lib/hooks';
 
-import { SortingOptions } from "../lib/enums";
-import { RESULTS_PER_PAGE } from "../lib/constants";
-import { TPageChangeDirection, TSortBy } from "../lib/types";
+import { SortingOptions } from '../lib/enums';
+import { RESULTS_PER_PAGE } from '../lib/constants';
+import { TPageChangeDirection, TSortBy } from '../lib/types';
 
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 
-import Logo from "./Logo";
-import Footer from "./Footer";
-import JobList from "./JobList";
-import Container from "./Container";
-import Background from "./Background";
-import SearchForm from "./SearchForm";
-import ResultsCount from "./ResultsCount";
-import Header, { HeaderTop } from "./Header";
-import Pagination from "./PaginationControls";
-import JobItemContent from "./JobItemContent";
-import Sidebar, { SidebarTop } from "./Sidebar";
-import SortingControls from "./SortingControls";
-import BookmarksButton from "./BookmarksButton";
+import Logo from './Logo';
+import Footer from './Footer';
+import JobList from './JobList';
+import Container from './Container';
+import Background from './Background';
+import SearchForm from './SearchForm';
+import ResultsCount from './ResultsCount';
+import Header, { HeaderTop } from './Header';
+import Pagination from './PaginationControls';
+import JobItemContent from './JobItemContent';
+import Sidebar, { SidebarTop } from './Sidebar';
+import SortingControls from './SortingControls';
+import BookmarksButton from './BookmarksButton';
 
 function App() {
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
 
     const { jobItems, isLoading } = useJobItems(debouncedSearchQuery);
@@ -33,6 +33,7 @@ function App() {
 
     const resultsCount = jobItems?.length || 0;
     const numberOfPages = resultsCount / RESULTS_PER_PAGE;
+
     const jobItemsSorted = [...(jobItems || [])].sort((a, b) => {
         if (sortBy === SortingOptions.RELEVANT) {
             return b.relevanceScore - a.relevanceScore;
@@ -42,6 +43,7 @@ function App() {
 
         return 0;
     });
+
     const jobItemsSliced =
         jobItemsSorted?.slice(
             (currentPage - 1) * RESULTS_PER_PAGE,
@@ -49,10 +51,10 @@ function App() {
         ) || [];
 
     const handlePageChange = (direction: TPageChangeDirection): void => {
-        if (direction === "next") {
-            setCurrentPage((prev) => prev + 1);
-        } else if (direction === "previous") {
-            setCurrentPage((prev) => prev - 1);
+        if (direction === 'next') {
+            setCurrentPage(prev => prev + 1);
+        } else if (direction === 'previous') {
+            setCurrentPage(prev => prev - 1);
         }
     };
 
@@ -97,7 +99,7 @@ function App() {
 
             <Footer />
 
-            <Toaster position={"top-right"} />
+            <Toaster position={'top-right'} />
         </>
     );
 }

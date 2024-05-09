@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useContext, useEffect, useState } from 'react';
 
 import { handleError } from './utils';
+import { BASE_API_URL } from './constants';
 
 import { JobItem, JobItemExpanded } from './types';
 
-import { BASE_API_URL } from './constants';
+import { BookmarksContext } from '../contexts/BookmarksContextProvider';
 
 type JobItemsApiResponse = {
     sorted: boolean;
@@ -114,3 +115,14 @@ export const useActiveId = (): number | null => {
 
     return activeId;
 };
+
+export function useBookmarksContext() {
+    const context = useContext(BookmarksContext);
+
+    if (!context)
+        throw new Error(
+            'useBookmarksContext must be used within a BookmarksContextProvider'
+        );
+
+    return context;
+}
