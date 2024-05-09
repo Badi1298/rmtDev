@@ -1,9 +1,11 @@
-import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
+import { TPageChangeDirection } from "../lib/types";
+
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
 type PaginationProps = {
     currentPage: number;
     numberOfPages: number;
-    onClick: (direction: 'next' | 'previous') => void;
+    onClick: (direction: TPageChangeDirection) => void;
 };
 
 export default function Pagination({
@@ -17,7 +19,7 @@ export default function Pagination({
                 <PaginationButton
                     direction="previous"
                     currentPage={currentPage}
-                    onClick={() => onClick('previous')}
+                    onClick={() => onClick("previous")}
                 />
             )}
 
@@ -25,7 +27,7 @@ export default function Pagination({
                 <PaginationButton
                     direction="next"
                     currentPage={currentPage}
-                    onClick={() => onClick('next')}
+                    onClick={() => onClick("next")}
                 />
             )}
         </section>
@@ -33,7 +35,7 @@ export default function Pagination({
 }
 
 type PaginationButtonProps = {
-    direction: 'previous' | 'next';
+    direction: TPageChangeDirection;
     currentPage: number;
     onClick: () => void;
 };
@@ -45,19 +47,19 @@ function PaginationButton({
 }: PaginationButtonProps) {
     return (
         <button
-            onClick={e => {
+            onClick={(e) => {
                 onClick();
                 e.currentTarget.blur();
             }}
             className={`pagination__button pagination__button--${direction}`}
         >
-            {direction === 'previous' && (
+            {direction === "previous" && (
                 <>
                     <ArrowLeftIcon /> Page {currentPage - 1}
                 </>
             )}
 
-            {direction === 'next' && (
+            {direction === "next" && (
                 <>
                     Page {currentPage + 1} <ArrowRightIcon />
                 </>

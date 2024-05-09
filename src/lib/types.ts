@@ -1,3 +1,7 @@
+export type TSortBy = "relevant" | "recent";
+
+export type TPageChangeDirection = "previous" | "next";
+
 export type JobItem = {
     id: number;
     title: string;
