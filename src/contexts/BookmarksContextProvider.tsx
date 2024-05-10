@@ -1,12 +1,18 @@
 import { ReactNode, createContext, useEffect } from 'react';
+
+import { useJobItems } from '../lib/hooks';
 import { useLocalStorage } from 'usehooks-ts';
+
+import { JobItemExpanded } from '../lib/types';
 
 type BookmarksContextProviderProps = {
     children: ReactNode;
 };
 
 type TBookmarksContext = {
+    isLoading: boolean;
     bookmarkedIds: number[];
+    bookmarkedJobItems: JobItemExpanded[];
     handleBookmarkItem: (id: number) => void;
 };
 
@@ -19,6 +25,9 @@ export default function BookmarksContextProvider({
         'bookmarkedIds',
         []
     );
+
+    const { jobItems: bookmarkedJobItems, isLoading } =
+        useJobItems(bookmarkedIds);
 
     useEffect(() => {
         localStorage.setItem('bookmarkedIds', JSON.stringify(bookmarkedIds));
@@ -39,6 +48,8 @@ export default function BookmarksContextProvider({
             value={{
                 bookmarkedIds,
                 handleBookmarkItem,
+                bookmarkedJobItems,
+                isLoading,
             }}
         >
             {children}

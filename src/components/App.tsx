@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useDebounce } from 'use-debounce';
-import { useJobItems } from '../lib/hooks';
+import { useSearchJobItems } from '../lib/hooks';
 
 import { SortingOptions } from '../lib/enums';
 import { RESULTS_PER_PAGE } from '../lib/constants';
@@ -27,7 +27,7 @@ function App() {
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 1000);
 
-    const { jobItems, isLoading } = useJobItems(debouncedSearchQuery);
+    const { jobItems, isLoading } = useSearchJobItems(debouncedSearchQuery);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortBy, setSortBy] = useState<TSortBy>(SortingOptions.RELEVANT);
 
